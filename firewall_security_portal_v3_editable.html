@@ -1,0 +1,564 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body,div,span,td,th,input,select,button,label{font-family:'Inter',sans-serif!important}
+.portal{min-height:620px;background:#f0f2f5;border-radius:12px;overflow:hidden;border:1.5px solid #d0d5dd}
+.topbar{background:#0d1e3a;padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
+.logo-icon{width:34px;height:34px;background:#e63946;border-radius:7px;display:flex;align-items:center;justify-content:center}
+.logo-text{color:#fff;font-size:15px;font-weight:700}
+.logo-sub{color:#7a8fad;font-size:10px;letter-spacing:1px;text-transform:uppercase}
+.topbar-right{display:flex;align-items:center;gap:14px}
+.branch-selector{background:#1a3356;border:1.5px solid #2a4a7a;border-radius:7px;color:#c8d8f0;font-size:12px;font-weight:500;padding:6px 10px;cursor:pointer;font-family:'Inter',sans-serif!important}
+.user-badge{display:flex;align-items:center;gap:8px}
+.user-avatar{width:32px;height:32px;border-radius:50%;background:#2a4a7a;border:2px solid #3a5a8a;display:flex;align-items:center;justify-content:center;color:#c8d8f0;font-size:11px;font-weight:700}
+.user-name{color:#c8d8f0;font-size:13px;font-weight:500}
+.layout{display:flex;height:calc(100% - 58px)}
+.sidebar{width:210px;background:#0d1e3a;flex-shrink:0;padding:14px 0;border-right:1.5px solid #1a3356}
+.nav-label{font-size:10px;color:#4a6080;padding:6px 16px 3px;letter-spacing:1.2px;text-transform:uppercase;font-weight:600}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 16px;cursor:pointer;color:#8899bb;font-size:13px;font-weight:500;border-left:3px solid transparent;transition:all .15s}
+.nav-item:hover{color:#c8d8f0;background:#1a335622}
+.nav-item.active{color:#fff;background:#1a335644;border-left:3px solid #e63946}
+.nav-item i{font-size:16px;width:20px}
+.nav-badge{margin-left:auto;background:#e63946;color:#fff;font-size:9px;font-weight:700;border-radius:10px;padding:2px 6px}
+.content{flex:1;overflow-y:auto;padding:20px;background:#f0f2f5}
+.page{display:none}.page.active{display:block}
+.page-title{font-size:20px;font-weight:700;color:#111827;margin-bottom:2px}
+.page-sub{font-size:13px;color:#6b7280;margin-bottom:18px}
+.card{background:#fff;border:1.5px solid #d1d5db;border-radius:10px;padding:16px}
+.card-title{font-size:12px;font-weight:700;color:#374151;margin-bottom:12px;display:flex;align-items:center;gap:7px;text-transform:uppercase;letter-spacing:.5px}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.stat-card{background:#fff;border:1.5px solid #d1d5db;border-radius:10px;padding:14px 16px}
+.stat-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;font-size:18px}
+.stat-label{font-size:11px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
+.stat-value{font-size:24px;font-weight:700;color:#111827;line-height:1}
+.stat-delta{font-size:11px;font-weight:500;margin-top:4px}
+.delta-up{color:#16a34a}.delta-dn{color:#e63946}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.btn{font-size:12px;font-weight:600;padding:7px 14px;border-radius:7px;border:1.5px solid #d1d5db;background:#fff;color:#374151;cursor:pointer;display:inline-flex;align-items:center;gap:5px}
+.btn:hover{background:#f3f4f6}
+.btn-accent{background:#0d1e3a;color:#fff;border:none}.btn-accent:hover{background:#1a3356}
+.btn-red{background:#fee2e2;color:#991b1b;border-color:#fecaca}.btn-red:hover{background:#fecaca}
+.btn-sm{font-size:11px;padding:4px 9px}
+.table-card{background:#fff;border:1.5px solid #d1d5db;border-radius:10px;overflow:hidden;margin-bottom:16px}
+.data-table{width:100%;border-collapse:collapse;font-size:13px}
+.data-table th{text-align:left;padding:10px 14px;background:#f9fafb;color:#374151;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1.5px solid #e5e7eb}
+.data-table td{padding:10px 14px;border-bottom:1px solid #f3f4f6;color:#111827;font-weight:400}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:#f9fafb}
+.pill{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;border:1px solid}
+.p-green{background:#dcfce7;color:#166534;border-color:#bbf7d0}
+.p-blue{background:#dbeafe;color:#1d4ed8;border-color:#bfdbfe}
+.p-yellow{background:#fef9c3;color:#854d0e;border-color:#fef08a}
+.p-red{background:#fee2e2;color:#991b1b;border-color:#fecaca}
+.p-gray{background:#f3f4f6;color:#4b5563;border-color:#e5e7eb}
+.g-avatar{width:32px;height:32px;border-radius:50%;background:#e0e7ff;color:#3730a3;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;border:1.5px solid #c7d2fe}
+.guard-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #f3f4f6}
+.guard-row:last-child{border:none}
+.progress-bar{height:7px;background:#e5e7eb;border-radius:4px;overflow:hidden;margin-top:6px}
+.progress-fill{height:100%;border-radius:4px;background:#0d1e3a}
+.inv-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f3f4f6}
+.inv-row:last-child{border:none}
+.inv-ico{width:32px;height:32px;border-radius:7px;background:#f3f4f6;border:1px solid #e5e7eb;display:flex;align-items:center;justify-content:center;font-size:15px;color:#6b7280}
+.tabs{display:flex;gap:0;border-bottom:1.5px solid #e5e7eb;margin-bottom:16px}
+.tab{padding:9px 18px;font-size:13px;font-weight:600;cursor:pointer;color:#6b7280;border-bottom:2.5px solid transparent;margin-bottom:-1.5px}
+.tab:hover{color:#374151}.tab.active{color:#0d1e3a;border-bottom:2.5px solid #e63946}
+.tab-pane{display:none}.tab-pane.active{display:block}
+/* MODAL */
+.overlay{display:none;position:fixed;inset:0;background:#00000077;z-index:999;align-items:center;justify-content:center}
+.overlay.open{display:flex}
+.modal{background:#fff;border-radius:12px;padding:24px;width:460px;max-width:95%;border:1.5px solid #d1d5db;box-shadow:0 20px 60px #0004}
+.modal-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.modal-title{font-size:16px;font-weight:700;color:#111827}
+.modal-x{background:none;border:none;font-size:22px;cursor:pointer;color:#6b7280;line-height:1}
+.modal-x:hover{color:#111827}
+.form-group{margin-bottom:12px}
+.form-label{font-size:11px;font-weight:700;color:#374151;margin-bottom:4px;display:block;text-transform:uppercase;letter-spacing:.4px}
+.form-input{width:100%;padding:8px 11px;border-radius:7px;border:1.5px solid #d1d5db;background:#fff;color:#111827;font-size:13px;font-family:'Inter',sans-serif!important}
+.form-input:focus{outline:none;border-color:#0d1e3a;box-shadow:0 0 0 3px #0d1e3a22}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.modal-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:18px;padding-top:14px;border-top:1px solid #f3f4f6}
+/* TOAST */
+.toast{position:fixed;bottom:20px;right:20px;background:#166534;color:#fff;padding:11px 18px;border-radius:8px;font-size:13px;font-weight:600;z-index:9999;transform:translateY(80px);opacity:0;transition:.3s;display:flex;align-items:center;gap:8px;pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.err{background:#991b1b}
+.branch-card{background:#fff;border:1.5px solid #d1d5db;border-radius:10px;padding:16px}
+.branch-card:hover{border-color:#93c5fd}
+.bs-box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:7px;padding:8px;text-align:center}
+.fp-ring{width:90px;height:90px;border-radius:50%;border:3px solid #e5e7eb;display:flex;align-items:center;justify-content:center;margin:0 auto 10px}
+.fp-ring.scan{border-color:#0d1e3a;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 #0d1e3a33}50%{box-shadow:0 0 0 10px #0d1e3a00}}
+</style>
+
+<div class="portal">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div class="logo-icon"><i class="ti ti-shield-check" style="color:#fff;font-size:18px"></i></div>
+      <div><div class="logo-text" id="topbar-company">Firewall Security</div><div class="logo-sub">Operations Platform</div></div>
+    </div>
+    <div class="topbar-right">
+      <select class="branch-selector"><option>All Branches</option><option>Islamabad HQ</option><option>Rawalpindi</option><option>Lahore</option></select>
+      <div class="user-badge"><div class="user-avatar">SA</div><span class="user-name" id="topbar-admin">Super Admin</span></div>
+    </div>
+  </div>
+  <div class="layout">
+    <div class="sidebar">
+      <div style="margin-bottom:6px"><div class="nav-label">Overview</div>
+        <div class="nav-item active" onclick="gotoPage('dashboard',this)"><i class="ti ti-layout-dashboard"></i>Dashboard</div></div>
+      <div style="margin-bottom:6px"><div class="nav-label">Operations</div>
+        <div class="nav-item" onclick="gotoPage('branches',this)"><i class="ti ti-building"></i>Branches</div>
+        <div class="nav-item" onclick="gotoPage('guards',this)"><i class="ti ti-users"></i>Guards</div>
+        <div class="nav-item" onclick="gotoPage('attendance',this)"><i class="ti ti-fingerprint"></i>Attendance</div>
+        <div class="nav-item" onclick="gotoPage('incidents',this)"><i class="ti ti-alert-triangle"></i>Incidents<span class="nav-badge">3</span></div></div>
+      <div style="margin-bottom:6px"><div class="nav-label">Resources</div>
+        <div class="nav-item" onclick="gotoPage('inventory',this)"><i class="ti ti-package"></i>Inventory</div>
+        <div class="nav-item" onclick="gotoPage('payroll',this)"><i class="ti ti-receipt"></i>Payroll</div></div>
+      <div><div class="nav-label">Access</div>
+        <div class="nav-item" onclick="gotoPage('clients',this)"><i class="ti ti-id-badge"></i>Client Portal</div>
+        <div class="nav-item" onclick="gotoPage('settings',this)"><i class="ti ti-settings"></i>Settings</div></div>
+    </div>
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div class="page active" id="page-dashboard">
+        <div class="page-title">Operations Dashboard</div>
+        <div class="page-sub" id="dash-date">Loading...</div>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-icon" style="background:#e0e7ff"><i class="ti ti-building" style="color:#3730a3"></i></div><div class="stat-label">Branches</div><div class="stat-value" id="s-branches">3</div><div class="stat-delta delta-up">↑ 1 new this month</div></div>
+          <div class="stat-card"><div class="stat-icon" style="background:#dcfce7"><i class="ti ti-users" style="color:#166534"></i></div><div class="stat-label">Active Guards</div><div class="stat-value" id="s-guards">5</div><div class="stat-delta delta-up">↑ 44 on duty today</div></div>
+          <div class="stat-card"><div class="stat-icon" style="background:#fee2e2"><i class="ti ti-alert-triangle" style="color:#991b1b"></i></div><div class="stat-label">Open Incidents</div><div class="stat-value">3</div><div class="stat-delta delta-dn">↑ 2 since yesterday</div></div>
+          <div class="stat-card"><div class="stat-icon" style="background:#fef9c3"><i class="ti ti-id-badge" style="color:#854d0e"></i></div><div class="stat-label">Clients</div><div class="stat-value" id="s-clients">4</div><div class="stat-delta delta-up">↑ 1 pending</div></div>
+        </div>
+        <div class="two-col">
+          <div class="card"><div class="card-title"><i class="ti ti-clock"></i>Recent Check-ins</div><div id="dash-checkins"></div></div>
+          <div class="card"><div class="card-title"><i class="ti ti-id-badge"></i>Clients Overview</div><div id="dash-clients"></div></div>
+        </div>
+        <div class="two-col">
+          <div class="card"><div class="card-title"><i class="ti ti-chart-bar"></i>Branch Attendance</div>
+            <div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:13px;font-weight:600;color:#374151">Islamabad HQ</span><span style="font-size:13px;font-weight:700">95%</span></div><div class="progress-bar"><div class="progress-fill" style="width:95%"></div></div></div>
+            <div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:13px;font-weight:600;color:#374151">Rawalpindi</span><span style="font-size:13px;font-weight:700">88%</span></div><div class="progress-bar"><div class="progress-fill" style="width:88%"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:13px;font-weight:600;color:#374151">Lahore</span><span style="font-size:13px;font-weight:700">92%</span></div><div class="progress-bar"><div class="progress-fill" style="width:92%"></div></div></div>
+          </div>
+          <div class="card"><div class="card-title"><i class="ti ti-package"></i>Inventory Alerts</div>
+            <div class="inv-row"><div style="display:flex;align-items:center;gap:10px"><div class="inv-ico"><i class="ti ti-shirt"></i></div><div><div style="font-size:13px;font-weight:600">Summer Uniforms</div><div style="font-size:11px;color:#9ca3af">Running low</div></div></div><div style="font-size:15px;font-weight:700;color:#e63946">8/50</div></div>
+            <div class="inv-row"><div style="display:flex;align-items:center;gap:10px"><div class="inv-ico"><i class="ti ti-radio"></i></div><div><div style="font-size:13px;font-weight:600">Walkie-Talkies</div><div style="font-size:11px;color:#9ca3af">3 under repair</div></div></div><div style="font-size:15px;font-weight:700;color:#d97706">17/24</div></div>
+            <div class="inv-row"><div style="display:flex;align-items:center;gap:10px"><div class="inv-ico"><i class="ti ti-flashlight"></i></div><div><div style="font-size:13px;font-weight:600">Torches</div><div style="font-size:11px;color:#9ca3af">All assigned</div></div></div><div style="font-size:15px;font-weight:700;color:#16a34a">30/30</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BRANCHES -->
+      <div class="page" id="page-branches">
+        <div class="section-header"><div><div class="page-title">Branch Management</div><div class="page-sub" style="margin-bottom:0">Manage offices, managers and permissions</div></div>
+          <button class="btn btn-accent" onclick="openBranchModal()"><i class="ti ti-plus"></i> Add Branch</button></div>
+        <div class="three-col" id="branches-grid"></div>
+      </div>
+
+      <!-- GUARDS -->
+      <div class="page" id="page-guards">
+        <div class="section-header"><div><div class="page-title">Guard Management</div><div class="page-sub" style="margin-bottom:0">All guards and assignments</div></div>
+          <button class="btn btn-accent" onclick="openGuardModal()"><i class="ti ti-plus"></i> Add Guard</button></div>
+        <div class="table-card"><table class="data-table"><thead><tr><th>Guard</th><th>Branch</th><th>Shift</th><th>Assignment</th><th>Status</th><th>Actions</th></tr></thead><tbody id="guards-tbody"></tbody></table></div>
+      </div>
+
+      <!-- ATTENDANCE -->
+      <div class="page" id="page-attendance">
+        <div class="page-title">Biometric Attendance</div><div class="page-sub">Fingerprint + GPS verified check-ins</div>
+        <div class="tabs"><div class="tab active" onclick="switchTab(this,'at-live')">Live Feed</div><div class="tab" onclick="switchTab(this,'at-log')">Attendance Log</div><div class="tab" onclick="switchTab(this,'at-enroll')">Enroll Guard</div></div>
+        <div class="tab-pane active" id="at-live">
+          <div class="two-col">
+            <div class="card" style="text-align:center"><div class="fp-ring scan"><i class="ti ti-fingerprint" style="font-size:40px;color:#0d1e3a"></i></div><div style="font-size:14px;font-weight:700;color:#111827;margin-bottom:4px">Fingerprint Scanner</div><div style="font-size:12px;color:#6b7280;margin-bottom:12px">Scanning… Place finger on reader</div><div style="background:#f0f4ff;border:1px solid #c7d2fe;border-radius:8px;padding:10px;display:flex;align-items:center;justify-content:center;gap:8px"><i class="ti ti-map-2" style="color:#3730a3"></i><span style="font-size:12px;font-weight:500">GPS: 33.6844° N, 73.0479° E</span></div></div>
+            <div class="card"><div class="card-title"><i class="ti ti-check"></i>Today's Summary</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+                <div style="background:#dcfce7;border:1.5px solid #bbf7d0;border-radius:8px;padding:12px;text-align:center"><div style="font-size:22px;font-weight:700;color:#166534">44</div><div style="font-size:11px;color:#166534;font-weight:600;text-transform:uppercase">Present</div></div>
+                <div style="background:#fee2e2;border:1.5px solid #fecaca;border-radius:8px;padding:12px;text-align:center"><div style="font-size:22px;font-weight:700;color:#991b1b">4</div><div style="font-size:11px;color:#991b1b;font-weight:600;text-transform:uppercase">Absent</div></div>
+              </div>
+              <div class="guard-row"><div class="g-avatar" style="background:#dcfce7;color:#166534;border-color:#bbf7d0">MK</div><div style="flex:1"><div style="font-size:13px;font-weight:600">Muhammad Kamran</div><div style="font-size:11px;color:#6b7280">08:02 · Gate 1</div></div><span class="pill p-green">✓</span></div>
+              <div class="guard-row"><div class="g-avatar" style="background:#dcfce7;color:#166534;border-color:#bbf7d0">AH</div><div style="flex:1"><div style="font-size:13px;font-weight:600">Asim Hussain</div><div style="font-size:11px;color:#6b7280">08:05 · Entrance</div></div><span class="pill p-green">✓</span></div>
+              <div class="guard-row"><div class="g-avatar" style="background:#fee2e2;color:#991b1b;border-color:#fecaca">NI</div><div style="flex:1"><div style="font-size:13px;font-weight:600">Naveed Iqbal</div><div style="font-size:11px;color:#6b7280">Approved Leave</div></div><span class="pill p-red">✗</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="at-log">
+          <div class="table-card"><table class="data-table"><thead><tr><th>Guard</th><th>Branch</th><th>Date</th><th>Check-in</th><th>Check-out</th><th>Hours</th><th>Status</th></tr></thead><tbody>
+            <tr><td style="font-weight:600">Muhammad Kamran</td><td>ISB HQ</td><td>07 May</td><td>08:02</td><td>—</td><td>—</td><td><span class="pill p-blue">Active</span></td></tr>
+            <tr><td style="font-weight:600">Asim Hussain</td><td>RWP</td><td>07 May</td><td>08:05</td><td>—</td><td>—</td><td><span class="pill p-blue">Active</span></td></tr>
+            <tr><td style="font-weight:600">Zubair Baig</td><td>LHR</td><td>06 May</td><td>08:00</td><td>20:00</td><td>12h</td><td><span class="pill p-green">Done</span></td></tr>
+            <tr><td style="font-weight:600">Naveed Iqbal</td><td>ISB HQ</td><td>06 May</td><td>—</td><td>—</td><td>—</td><td><span class="pill p-red">Absent</span></td></tr>
+          </tbody></table></div>
+        </div>
+        <div class="tab-pane" id="at-enroll">
+          <div class="card" style="max-width:480px"><div class="card-title"><i class="ti ti-user-plus"></i>Enroll New Guard</div>
+            <div class="form-row"><div class="form-group"><label class="form-label">Guard ID</label><input class="form-input" value="G-0049"/></div><div class="form-group"><label class="form-label">Full Name</label><input class="form-input" placeholder="Enter full name"/></div></div>
+            <div class="form-group"><label class="form-label">Branch</label><select class="form-input"><option>Islamabad HQ</option><option>Rawalpindi</option><option>Lahore</option></select></div>
+            <div style="background:#f0f4ff;border:2px dashed #c7d2fe;border-radius:8px;padding:20px;text-align:center;margin-bottom:14px"><i class="ti ti-fingerprint" style="font-size:40px;color:#3730a3"></i><div style="font-size:13px;font-weight:600;color:#374151;margin-top:8px">Place guard's finger on biometric reader</div></div>
+            <button class="btn btn-accent">Enroll Fingerprint</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- INCIDENTS -->
+      <div class="page" id="page-incidents">
+        <div class="section-header"><div><div class="page-title">Incident Reporting</div><div class="page-sub" style="margin-bottom:0">Log and track operational events</div></div>
+          <button class="btn btn-accent" onclick="openIncidentModal()"><i class="ti ti-plus"></i> New Report</button></div>
+        <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:16px">
+          <div class="stat-card"><div class="stat-icon" style="background:#fee2e2"><i class="ti ti-alert-circle" style="color:#991b1b"></i></div><div class="stat-label">Critical</div><div class="stat-value">1</div></div>
+          <div class="stat-card"><div class="stat-icon" style="background:#fef9c3"><i class="ti ti-exclamation-mark" style="color:#854d0e"></i></div><div class="stat-label">Warning</div><div class="stat-value">2</div></div>
+          <div class="stat-card"><div class="stat-icon" style="background:#dcfce7"><i class="ti ti-check" style="color:#166534"></i></div><div class="stat-label">Resolved (30d)</div><div class="stat-value">14</div></div>
+        </div>
+        <div class="table-card"><table class="data-table"><thead><tr><th>#</th><th>Incident</th><th>Branch</th><th>Guard</th><th>Time</th><th>Severity</th><th>Status</th><th>Actions</th></tr></thead><tbody id="incidents-tbody"></tbody></table></div>
+      </div>
+
+      <!-- INVENTORY -->
+      <div class="page" id="page-inventory">
+        <div class="section-header"><div><div class="page-title">Inventory & Uniforms</div><div class="page-sub" style="margin-bottom:0">Track assets, uniforms, tools</div></div>
+          <button class="btn btn-accent"><i class="ti ti-plus"></i> Add Item</button></div>
+        <div class="stats-grid" style="margin-bottom:16px">
+          <div class="stat-card"><div class="stat-icon" style="background:#e0e7ff"><i class="ti ti-package" style="color:#3730a3"></i></div><div class="stat-label">Total Items</div><div class="stat-value">312</div></div>
+          <div class="stat-card"><div class="stat-icon" style="background:#dcfce7"><i class="ti ti-check" style="color:#166534"></i></div><div class="stat-label">Assigned</div><div class="stat-value">274</div></div>
+          <div class="stat-card"><div class="stat-icon" style="background:#fef9c3"><i class="ti ti-tool" style="color:#854d0e"></i></div><div class="stat-label">Under Repair</div><div class="stat-value">7</div></div>
+          <div class="stat-card"><div class="stat-icon" style="background:#fee2e2"><i class="ti ti-alert-triangle" style="color:#991b1b"></i></div><div class="stat-label">Low Stock</div><div class="stat-value">2</div></div>
+        </div>
+        <div class="table-card"><table class="data-table"><thead><tr><th>Item</th><th>Category</th><th>Total</th><th>Available</th><th>Assigned</th><th>Damaged</th><th>Status</th></tr></thead><tbody>
+          <tr><td style="font-weight:600">Summer Uniforms</td><td>Clothing</td><td>50</td><td>8</td><td>38</td><td>4</td><td><span class="pill p-red">Low Stock</span></td></tr>
+          <tr><td style="font-weight:600">Winter Uniforms</td><td>Clothing</td><td>50</td><td>22</td><td>28</td><td>0</td><td><span class="pill p-green">OK</span></td></tr>
+          <tr><td style="font-weight:600">Walkie-Talkies</td><td>Communication</td><td>24</td><td>17</td><td>7</td><td>3</td><td><span class="pill p-yellow">Repair</span></td></tr>
+          <tr><td style="font-weight:600">Torches</td><td>Equipment</td><td>30</td><td>0</td><td>30</td><td>0</td><td><span class="pill p-blue">Fully Issued</span></td></tr>
+          <tr><td style="font-weight:600">Safety Helmets</td><td>PPE</td><td>20</td><td>12</td><td>8</td><td>0</td><td><span class="pill p-green">OK</span></td></tr>
+        </tbody></table></div>
+      </div>
+
+      <!-- PAYROLL -->
+      <div class="page" id="page-payroll">
+        <div class="section-header"><div><div class="page-title">Payroll & Billing</div><div class="page-sub" style="margin-bottom:0">Automated salary, overtime, deductions</div></div>
+          <button class="btn btn-accent">Run Payroll</button></div>
+        <div class="stats-grid" style="margin-bottom:16px">
+          <div class="stat-card"><div class="stat-icon" style="background:#dcfce7"><i class="ti ti-currency-rupee" style="color:#166634"></i></div><div class="stat-label">Gross (May)</div><div class="stat-value" style="font-size:18px">₨2.4M</div></div>
+          <div class="stat-card"><div class="stat-icon" style="background:#dbeafe"><i class="ti ti-clock" style="color:#1d4ed8"></i></div><div class="stat-label">Overtime Hrs</div><div class="stat-value">184h</div></div>
+          <div class="stat-card"><div class="stat-icon" style="background:#fee2e2"><i class="ti ti-minus" style="color:#991b1b"></i></div><div class="stat-label">Deductions</div><div class="stat-value" style="font-size:18px">₨142K</div></div>
+          <div class="stat-card"><div class="stat-icon" style="background:#fef9c3"><i class="ti ti-receipt" style="color:#854d0e"></i></div><div class="stat-label">Net Payable</div><div class="stat-value" style="font-size:18px">₨2.26M</div></div>
+        </div>
+        <div class="table-card"><table class="data-table"><thead><tr><th>Guard</th><th>Branch</th><th>Days</th><th>OT Hrs</th><th>Basic</th><th>Overtime</th><th>Deduction</th><th>Net Pay</th></tr></thead><tbody>
+          <tr><td style="font-weight:600">Muhammad Kamran</td><td>ISB HQ</td><td>26</td><td>12</td><td>₨45,000</td><td>₨5,400</td><td>₨2,200</td><td style="font-weight:700;color:#166534">₨48,200</td></tr>
+          <tr><td style="font-weight:600">Asim Hussain</td><td>RWP</td><td>24</td><td>8</td><td>₨40,000</td><td>₨3,200</td><td>₨1,800</td><td style="font-weight:700;color:#166534">₨41,400</td></tr>
+          <tr><td style="font-weight:600">Zubair Baig</td><td>LHR</td><td>25</td><td>16</td><td>₨40,000</td><td>₨6,400</td><td>₨1,500</td><td style="font-weight:700;color:#166534">₨44,900</td></tr>
+        </tbody></table></div>
+      </div>
+
+      <!-- CLIENTS -->
+      <div class="page" id="page-clients">
+        <div class="section-header"><div><div class="page-title">Client Portal</div><div class="page-sub" style="margin-bottom:0">Clients see only their assigned branches</div></div>
+          <button class="btn btn-accent" onclick="openClientModal()"><i class="ti ti-plus"></i> Add Client</button></div>
+        <div class="table-card"><table class="data-table"><thead><tr><th>Company</th><th>Contact</th><th>Phone</th><th>Branch</th><th>Status</th><th>Actions</th></tr></thead><tbody id="clients-tbody"></tbody></table></div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="page" id="page-settings">
+        <div class="page-title">Settings & Access Control</div><div class="page-sub">Customize portal, roles and permissions</div>
+        <div class="two-col">
+          <div class="card" style="max-width:460px">
+            <div class="card-title"><i class="ti ti-building"></i>Company Settings</div>
+            <div class="form-group"><label class="form-label">Company Name</label><input class="form-input" id="set-company" placeholder="Company name"/></div>
+            <div class="form-group"><label class="form-label">Admin Name</label><input class="form-input" id="set-admin" placeholder="Admin name"/></div>
+            <button class="btn btn-accent" onclick="saveSettings()">Save Settings</button>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="ti ti-shield"></i>Role-Based Access</div>
+            <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:10px;margin-bottom:8px;display:flex;align-items:center;gap:12px"><div style="width:36px;height:36px;border-radius:50%;background:#fee2e2;display:flex;align-items:center;justify-content:center"><i class="ti ti-crown" style="color:#991b1b"></i></div><div><div style="font-size:13px;font-weight:700;color:#111827">Super Admin</div><div style="font-size:11px;color:#6b7280">Full access — all branches</div></div></div>
+            <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:10px;margin-bottom:8px;display:flex;align-items:center;gap:12px"><div style="width:36px;height:36px;border-radius:50%;background:#dbeafe;display:flex;align-items:center;justify-content:center"><i class="ti ti-building" style="color:#1d4ed8"></i></div><div><div style="font-size:13px;font-weight:700;color:#111827">Branch Manager</div><div style="font-size:11px;color:#6b7280">Own branch only</div></div></div>
+            <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:10px;display:flex;align-items:center;gap:12px"><div style="width:36px;height:36px;border-radius:50%;background:#fef9c3;display:flex;align-items:center;justify-content:center"><i class="ti ti-id-badge" style="color:#854d0e"></i></div><div><div style="font-size:13px;font-weight:700;color:#111827">Client</div><div style="font-size:11px;color:#6b7280">Assigned branches only</div></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- CLIENT MODAL -->
+<div class="overlay" id="m-client">
+  <div class="modal">
+    <div class="modal-hdr"><div class="modal-title" id="m-client-title">Add Client</div><button class="modal-x" onclick="closeM('m-client')">×</button></div>
+    <div class="form-group"><label class="form-label">Company Name *</label><input class="form-input" id="c-company" placeholder="e.g. Pakistan Steel Mills"/></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Contact Person</label><input class="form-input" id="c-contact" placeholder="Full name"/></div>
+      <div class="form-group"><label class="form-label">Phone</label><input class="form-input" id="c-phone" placeholder="051-xxxxxxx"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Branch</label><select class="form-input" id="c-branch"></select></div>
+      <div class="form-group"><label class="form-label">Status</label><select class="form-input" id="c-status"><option>Active</option><option>Pending</option><option>Inactive</option></select></div>
+    </div>
+    <input type="hidden" id="c-id"/>
+    <div class="modal-footer"><button class="btn" onclick="closeM('m-client')">Cancel</button><button class="btn btn-accent" onclick="saveClient()">Save Client</button></div>
+  </div>
+</div>
+
+<!-- GUARD MODAL -->
+<div class="overlay" id="m-guard">
+  <div class="modal">
+    <div class="modal-hdr"><div class="modal-title" id="m-guard-title">Add Guard</div><button class="modal-x" onclick="closeM('m-guard')">×</button></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Full Name *</label><input class="form-input" id="g-name" placeholder="Full name"/></div>
+      <div class="form-group"><label class="form-label">CNIC</label><input class="form-input" id="g-cnic" placeholder="xxxxx-xxxxxxx-x"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Branch</label><select class="form-input" id="g-branch"></select></div>
+      <div class="form-group"><label class="form-label">Shift</label><select class="form-input" id="g-shift"><option>Morning</option><option>Evening</option><option>Night</option></select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Assignment</label><input class="form-input" id="g-assign" placeholder="e.g. Gate 1"/></div>
+      <div class="form-group"><label class="form-label">Basic Salary (₨)</label><input class="form-input" id="g-salary" type="number" placeholder="40000"/></div>
+    </div>
+    <input type="hidden" id="g-id"/>
+    <div class="modal-footer"><button class="btn" onclick="closeM('m-guard')">Cancel</button><button class="btn btn-accent" onclick="saveGuard()">Save Guard</button></div>
+  </div>
+</div>
+
+<!-- BRANCH MODAL -->
+<div class="overlay" id="m-branch">
+  <div class="modal">
+    <div class="modal-hdr"><div class="modal-title" id="m-branch-title">Add Branch</div><button class="modal-x" onclick="closeM('m-branch')">×</button></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Branch Name *</label><input class="form-input" id="b-name" placeholder="e.g. Islamabad HQ"/></div>
+      <div class="form-group"><label class="form-label">City</label><input class="form-input" id="b-city" placeholder="City"/></div>
+    </div>
+    <div class="form-group"><label class="form-label">Address</label><input class="form-input" id="b-address" placeholder="Full address"/></div>
+    <div class="form-group"><label class="form-label">Manager Name</label><input class="form-input" id="b-manager" placeholder="e.g. Col. Tariq Mehmood"/></div>
+    <input type="hidden" id="b-id"/>
+    <div class="modal-footer"><button class="btn" onclick="closeM('m-branch')">Cancel</button><button class="btn btn-accent" onclick="saveBranch()">Save Branch</button></div>
+  </div>
+</div>
+
+<!-- INCIDENT MODAL -->
+<div class="overlay" id="m-incident">
+  <div class="modal">
+    <div class="modal-hdr"><div class="modal-title" id="m-incident-title">New Incident Report</div><button class="modal-x" onclick="closeM('m-incident')">×</button></div>
+    <div class="form-group"><label class="form-label">Title *</label><input class="form-input" id="i-title" placeholder="Incident title"/></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Branch</label><select class="form-input" id="i-branch"></select></div>
+      <div class="form-group"><label class="form-label">Severity</label><select class="form-input" id="i-severity"><option>Low</option><option>Medium</option><option>Critical</option></select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Guard</label><input class="form-input" id="i-guard" placeholder="Guard name"/></div>
+      <div class="form-group"><label class="form-label">Location</label><input class="form-input" id="i-location" placeholder="e.g. Gate B"/></div>
+    </div>
+    <input type="hidden" id="i-id"/>
+    <div class="modal-footer"><button class="btn" onclick="closeM('m-incident')">Cancel</button><button class="btn btn-accent" onclick="saveIncident()">Save Report</button></div>
+  </div>
+</div>
+
+<!-- DELETE MODAL -->
+<div class="overlay" id="m-delete">
+  <div class="modal" style="max-width:360px">
+    <div class="modal-hdr"><div class="modal-title">Confirm Delete</div><button class="modal-x" onclick="closeM('m-delete')">×</button></div>
+    <p style="font-size:13px;color:#6b7280;margin-bottom:4px">Are you sure you want to delete:</p>
+    <p style="font-size:14px;font-weight:700;color:#111827;margin-bottom:16px" id="del-name"></p>
+    <p style="font-size:12px;color:#e63946">This action cannot be undone.</p>
+    <div class="modal-footer"><button class="btn" onclick="closeM('m-delete')">Cancel</button><button class="btn btn-red" onclick="confirmDelete()">Delete</button></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let DB = {
+  company: "Firewall Security", admin: "Super Admin",
+  nClient:5, nGuard:6, nBranch:4, nIncident:34,
+  branches: [
+    {id:1,name:"Islamabad HQ",city:"Islamabad",address:"G-10, Islamabad",manager:"Col. Tariq Mehmood"},
+    {id:2,name:"Rawalpindi",city:"Rawalpindi",address:"Saddar, Rawalpindi",manager:"Maj. Adnan Siddiqui"},
+    {id:3,name:"Lahore",city:"Lahore",address:"Gulberg III, Lahore",manager:"Capt. Bilal Chaudhry"},
+  ],
+  guards: [
+    {id:1,gid:"G-0001",name:"Muhammad Kamran",cnic:"61101-1234567-1",branchId:1,shift:"Morning",assign:"Gate 1",salary:45000,status:"On Duty"},
+    {id:2,gid:"G-0002",name:"Asim Hussain",cnic:"37405-9876543-2",branchId:2,shift:"Morning",assign:"Entrance",salary:40000,status:"On Duty"},
+    {id:3,gid:"G-0003",name:"Zubair Baig",cnic:"35201-5554443-3",branchId:3,shift:"Morning",assign:"Parking",salary:40000,status:"On Duty"},
+    {id:4,gid:"G-0004",name:"Faisal Akhtar",cnic:"61101-7777771-4",branchId:1,shift:"Morning",assign:"Lobby",salary:40000,status:"Active"},
+    {id:5,gid:"G-0005",name:"Naveed Iqbal",cnic:"61101-2222221-5",branchId:1,shift:"Night",assign:"Perimeter",salary:40000,status:"On Leave"},
+  ],
+  clients: [
+    {id:1,company:"Pakistan Steel Mills",contact:"Ahmed Khan",phone:"051-1234567",branchId:1,status:"Active"},
+    {id:2,company:"Bahria Town Security",contact:"Farhan Malik",phone:"051-9876543",branchId:2,status:"Active"},
+    {id:3,company:"DHA Lahore",contact:"Col. Riaz",phone:"042-1234567",branchId:3,status:"Active"},
+    {id:4,company:"Serena Hotels Group",contact:"Sara Ahmed",phone:"051-5554443",branchId:1,status:"Pending"},
+  ],
+  incidents: [
+    {id:31,num:"INC-031",title:"Unauthorized Entry Attempt",branch:"ISB HQ",guard:"M. Kamran",time:"07:42",sev:"Critical",status:"Open"},
+    {id:32,num:"INC-032",title:"CCTV Camera Malfunction",branch:"RWP",guard:"A. Hussain",time:"08:30",sev:"Medium",status:"Open"},
+    {id:33,num:"INC-033",title:"Visitor Tailgating Reported",branch:"LHR",guard:"Z. Baig",time:"09:10",sev:"Low",status:"Open"},
+    {id:34,num:"INC-034",title:"Vehicle Access Violation",branch:"ISB HQ",guard:"F. Akhtar",time:"06 May",sev:"Medium",status:"Resolved"},
+  ],
+};
+let delTarget=null;
+
+function bName(id){const b=DB.branches.find(x=>x.id===id);return b?b.name:'—';}
+function ini(n){return n.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();}
+function pillOf(s){return{Active:'p-green','On Duty':'p-blue','On Leave':'p-yellow',Pending:'p-yellow',Inactive:'p-gray',Open:'p-yellow',Resolved:'p-green',Critical:'p-red',Medium:'p-yellow',Low:'p-blue'}[s]||'p-gray';}
+function toast(msg,err=false){const t=document.getElementById('toast');t.className='toast'+(err?' err':'');t.innerHTML=(err?'❌ ':'✅ ')+msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+function closeM(id){document.getElementById(id).classList.remove('open');}
+function openM(id){document.getElementById(id).classList.add('open');}
+function fillBranchDrop(selId,selVal=null){const s=document.getElementById(selId);s.innerHTML=DB.branches.map(b=>`<option value="${b.id}"${b.id==selVal?' selected':''}>${b.name}</option>`).join('');}
+
+function gotoPage(id,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  el.classList.add('active');
+  if(id==='clients')renderClients();
+  if(id==='guards')renderGuards();
+  if(id==='branches')renderBranches();
+  if(id==='incidents')renderIncidents();
+  if(id==='dashboard')renderDash();
+  if(id==='settings'){document.getElementById('set-company').value=DB.company;document.getElementById('set-admin').value=DB.admin;}
+}
+function switchTab(el,pid){
+  el.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.closest('.page').querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');document.getElementById(pid).classList.add('active');
+}
+
+// DASHBOARD
+function renderDash(){
+  document.getElementById('dash-date').textContent=new Date().toLocaleDateString('en-PK',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('s-branches').textContent=DB.branches.length;
+  document.getElementById('s-guards').textContent=DB.guards.length;
+  document.getElementById('s-clients').textContent=DB.clients.length;
+  document.getElementById('dash-checkins').innerHTML=DB.guards.slice(0,4).map(g=>`
+    <div class="guard-row"><div class="g-avatar">${ini(g.name)}</div><div style="flex:1"><div style="font-size:13px;font-weight:600;color:#111827">${g.name}</div><div style="font-size:11px;color:#9ca3af">${bName(g.branchId)} · ${g.assign}</div></div><span class="pill ${pillOf(g.status)}">${g.status}</span></div>`).join('');
+  document.getElementById('dash-clients').innerHTML=DB.clients.slice(0,4).map(c=>`
+    <div class="guard-row"><div class="g-avatar" style="background:#fef9c3;color:#854d0e;border-color:#fef08a">${ini(c.company)}</div><div style="flex:1"><div style="font-size:13px;font-weight:600;color:#111827">${c.company}</div><div style="font-size:11px;color:#9ca3af">${c.contact} · ${bName(c.branchId)}</div></div><span class="pill ${pillOf(c.status)}">${c.status}</span></div>`).join('');
+}
+
+// CLIENTS
+function renderClients(){
+  document.getElementById('clients-tbody').innerHTML=DB.clients.map(c=>`
+    <tr>
+      <td style="font-weight:600">${c.company}</td><td>${c.contact}</td><td>${c.phone}</td>
+      <td>${bName(c.branchId)}</td><td><span class="pill ${pillOf(c.status)}">${c.status}</span></td>
+      <td style="display:flex;gap:6px">
+        <button class="btn btn-sm" onclick="editClient(${c.id})"><i class="ti ti-edit"></i> Edit</button>
+        <button class="btn btn-sm btn-red" onclick="openDel('client',${c.id},'${c.company}')"><i class="ti ti-trash"></i></button>
+      </td>
+    </tr>`).join('');
+}
+function openClientModal(){document.getElementById('m-client-title').textContent='Add Client';document.getElementById('c-company').value='';document.getElementById('c-contact').value='';document.getElementById('c-phone').value='';document.getElementById('c-status').value='Active';document.getElementById('c-id').value='';fillBranchDrop('c-branch');openM('m-client');}
+function editClient(id){const c=DB.clients.find(x=>x.id===id);document.getElementById('m-client-title').textContent='Edit Client';document.getElementById('c-company').value=c.company;document.getElementById('c-contact').value=c.contact;document.getElementById('c-phone').value=c.phone;document.getElementById('c-status').value=c.status;document.getElementById('c-id').value=id;fillBranchDrop('c-branch',c.branchId);openM('m-client');}
+function saveClient(){
+  const co=document.getElementById('c-company').value.trim();if(!co){toast('Company name required',true);return;}
+  const id=parseInt(document.getElementById('c-id').value);
+  const obj={company:co,contact:document.getElementById('c-contact').value.trim(),phone:document.getElementById('c-phone').value.trim(),branchId:parseInt(document.getElementById('c-branch').value),status:document.getElementById('c-status').value};
+  if(id){Object.assign(DB.clients.find(x=>x.id===id),obj);toast('Client updated!');}
+  else{DB.clients.push({id:DB.nClient++,...obj});toast('Client added!');}
+  closeM('m-client');renderClients();renderDash();
+}
+
+// GUARDS
+function renderGuards(){
+  document.getElementById('guards-tbody').innerHTML=DB.guards.map(g=>`
+    <tr>
+      <td><div style="display:flex;align-items:center;gap:8px"><div class="g-avatar" style="width:28px;height:28px;font-size:10px">${ini(g.name)}</div><div><div style="font-size:13px;font-weight:600">${g.name}</div><div style="font-size:10px;color:#9ca3af">${g.gid}</div></div></div></td>
+      <td>${bName(g.branchId)}</td><td>${g.shift}</td><td>${g.assign}</td>
+      <td><span class="pill ${pillOf(g.status)}">${g.status}</span></td>
+      <td style="display:flex;gap:6px">
+        <button class="btn btn-sm" onclick="editGuard(${g.id})"><i class="ti ti-edit"></i> Edit</button>
+        <button class="btn btn-sm btn-red" onclick="openDel('guard',${g.id},'${g.name}')"><i class="ti ti-trash"></i></button>
+      </td>
+    </tr>`).join('');
+}
+function openGuardModal(){document.getElementById('m-guard-title').textContent='Add Guard';['g-name','g-cnic','g-assign'].forEach(i=>document.getElementById(i).value='');document.getElementById('g-salary').value=40000;document.getElementById('g-shift').value='Morning';document.getElementById('g-id').value='';fillBranchDrop('g-branch');openM('m-guard');}
+function editGuard(id){const g=DB.guards.find(x=>x.id===id);document.getElementById('m-guard-title').textContent='Edit Guard';document.getElementById('g-name').value=g.name;document.getElementById('g-cnic').value=g.cnic;document.getElementById('g-shift').value=g.shift;document.getElementById('g-assign').value=g.assign;document.getElementById('g-salary').value=g.salary;document.getElementById('g-id').value=id;fillBranchDrop('g-branch',g.branchId);openM('m-guard');}
+function saveGuard(){
+  const name=document.getElementById('g-name').value.trim();if(!name){toast('Guard name required',true);return;}
+  const id=parseInt(document.getElementById('g-id').value);
+  const obj={name,cnic:document.getElementById('g-cnic').value.trim(),branchId:parseInt(document.getElementById('g-branch').value),shift:document.getElementById('g-shift').value,assign:document.getElementById('g-assign').value.trim(),salary:parseInt(document.getElementById('g-salary').value)||40000,status:'Active'};
+  if(id){Object.assign(DB.guards.find(x=>x.id===id),obj);toast('Guard updated!');}
+  else{const gid=`G-${String(DB.nGuard).padStart(4,'0')}`;DB.guards.push({id:DB.nGuard++,gid,...obj});toast('Guard added!');}
+  closeM('m-guard');renderGuards();renderDash();
+}
+
+// BRANCHES
+function renderBranches(){
+  document.getElementById('branches-grid').innerHTML=DB.branches.map(b=>`
+    <div class="branch-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+        <div><div style="font-size:15px;font-weight:700;color:#111827">${b.name}</div><div style="font-size:12px;color:#6b7280;margin-top:2px">Mgr: ${b.manager}</div></div>
+        <span class="pill p-green">Active</span>
+      </div>
+      <div style="background:#f0f4ff;border:1px solid #c7d2fe;border-radius:8px;height:60px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;margin-bottom:10px">
+        <i class="ti ti-map-pin" style="font-size:20px;color:#3730a3"></i><span style="font-size:11px;color:#6b7280;font-weight:500">${b.city}</span>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:8px">
+        <button class="btn btn-sm" style="flex:1;justify-content:center" onclick="editBranch(${b.id})"><i class="ti ti-edit"></i> Edit</button>
+        <button class="btn btn-sm btn-red" onclick="openDel('branch',${b.id},'${b.name}')"><i class="ti ti-trash"></i></button>
+      </div>
+    </div>`).join('');
+}
+function openBranchModal(){document.getElementById('m-branch-title').textContent='Add Branch';['b-name','b-city','b-address','b-manager'].forEach(i=>document.getElementById(i).value='');document.getElementById('b-id').value='';openM('m-branch');}
+function editBranch(id){const b=DB.branches.find(x=>x.id===id);document.getElementById('m-branch-title').textContent='Edit Branch';document.getElementById('b-name').value=b.name;document.getElementById('b-city').value=b.city;document.getElementById('b-address').value=b.address;document.getElementById('b-manager').value=b.manager;document.getElementById('b-id').value=id;openM('m-branch');}
+function saveBranch(){
+  const name=document.getElementById('b-name').value.trim();if(!name){toast('Branch name required',true);return;}
+  const id=parseInt(document.getElementById('b-id').value);
+  const obj={name,city:document.getElementById('b-city').value.trim(),address:document.getElementById('b-address').value.trim(),manager:document.getElementById('b-manager').value.trim()};
+  if(id){Object.assign(DB.branches.find(x=>x.id===id),obj);toast('Branch updated!');}
+  else{DB.branches.push({id:DB.nBranch++,...obj});toast('Branch added!');}
+  closeM('m-branch');renderBranches();renderDash();
+}
+
+// INCIDENTS
+function renderIncidents(){
+  document.getElementById('incidents-tbody').innerHTML=DB.incidents.map(i=>`
+    <tr>
+      <td style="color:#9ca3af;font-weight:600">${i.num}</td>
+      <td style="font-weight:600">${i.title}</td>
+      <td>${i.branch}</td><td>${i.guard}</td><td>${i.time}</td>
+      <td><span class="pill ${pillOf(i.sev)}">${i.sev}</span></td>
+      <td><span class="pill ${pillOf(i.status)}">${i.status}</span></td>
+      <td style="display:flex;gap:6px">
+        <button class="btn btn-sm" onclick="editIncident(${i.id})"><i class="ti ti-edit"></i> Edit</button>
+        <button class="btn btn-sm btn-red" onclick="openDel('incident',${i.id},'${i.title}')"><i class="ti ti-trash"></i></button>
+      </td>
+    </tr>`).join('');
+}
+function openIncidentModal(){document.getElementById('m-incident-title').textContent='New Incident Report';['i-title','i-guard','i-location'].forEach(x=>document.getElementById(x).value='');document.getElementById('i-severity').value='Low';document.getElementById('i-id').value='';fillBranchDrop('i-branch');openM('m-incident');}
+function editIncident(id){const i=DB.incidents.find(x=>x.id===id);document.getElementById('m-incident-title').textContent='Edit Incident';document.getElementById('i-title').value=i.title;document.getElementById('i-guard').value=i.guard;document.getElementById('i-location').value=i.branch;document.getElementById('i-severity').value=i.sev;document.getElementById('i-id').value=id;fillBranchDrop('i-branch');openM('m-incident');}
+function saveIncident(){
+  const title=document.getElementById('i-title').value.trim();if(!title){toast('Title required',true);return;}
+  const id=parseInt(document.getElementById('i-id').value);
+  const bid=parseInt(document.getElementById('i-branch').value);
+  const obj={title,branch:bName(bid),guard:document.getElementById('i-guard').value.trim(),time:new Date().toLocaleTimeString('en-PK',{hour:'2-digit',minute:'2-digit'}),sev:document.getElementById('i-severity').value,status:'Open'};
+  if(id){Object.assign(DB.incidents.find(x=>x.id===id),obj);toast('Incident updated!');}
+  else{const num=`INC-${String(DB.nIncident++).padStart(3,'0')}`;DB.incidents.push({id:DB.nIncident,...obj,num});toast('Incident reported!');}
+  closeM('m-incident');renderIncidents();
+}
+
+// DELETE
+function openDel(type,id,name){delTarget={type,id};document.getElementById('del-name').textContent=name;openM('m-delete');}
+function confirmDelete(){
+  const{type,id}=delTarget;
+  if(type==='client')DB.clients=DB.clients.filter(x=>x.id!==id);
+  if(type==='guard')DB.guards=DB.guards.filter(x=>x.id!==id);
+  if(type==='branch')DB.branches=DB.branches.filter(x=>x.id!==id);
+  if(type==='incident')DB.incidents=DB.incidents.filter(x=>x.id!==id);
+  closeM('m-delete');toast('Deleted successfully');
+  if(type==='client'){renderClients();renderDash();}
+  if(type==='guard'){renderGuards();renderDash();}
+  if(type==='branch'){renderBranches();renderDash();}
+  if(type==='incident')renderIncidents();
+}
+
+// SETTINGS
+function saveSettings(){
+  DB.company=document.getElementById('set-company').value.trim()||DB.company;
+  DB.admin=document.getElementById('set-admin').value.trim()||DB.admin;
+  document.getElementById('topbar-company').textContent=DB.company;
+  document.getElementById('topbar-admin').textContent=DB.admin;
+  toast('Settings saved!');
+}
+
+// Close overlay on background click
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+
+renderDash();
+</script>
